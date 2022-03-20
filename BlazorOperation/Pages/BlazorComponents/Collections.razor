@@ -1,0 +1,18 @@
+﻿@page "/BlazorComponents/Collections"
+
+<h3>Collections</h3>
+	Name : @Collection1.Name<br />
+	This Collection is : @(Collection1.IsActive?"Active" : "Not Active")<br />
+	Price : @Collection1.Price<br />
+	Active : <input type="checkbox" @bind-value="@Collection1.IsActive" checked="@(Collection1.IsActive?"checked":null)"/>
+	@*Price : <input type="number" @bind="@Collection1.Price" @bind:event="oninput"/> TWO WAY DATA-BINDING*@ 
+
+@code {
+	BlazorOperationModel.BlazorOperationModels.CollectionClass Collection1 = new()
+		{
+			Id = 1,
+			Name = "Building",
+			Price = 29.99,
+			IsActive = true
+	};
+}
