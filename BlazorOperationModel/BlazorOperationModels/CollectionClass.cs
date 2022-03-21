@@ -12,6 +12,6 @@ namespace BlazorOperationModel.BlazorOperationModels
         public string? Name { get; set; }
         public double Price { get; set; }
         public bool IsActive { get; set; }
-        public IEnumerable<CollectionPropertyClass> CollectionProperty { get; set; }
+        public List<CollectionPropertyClass> CollectionProperty { get; set; }
     }
 }

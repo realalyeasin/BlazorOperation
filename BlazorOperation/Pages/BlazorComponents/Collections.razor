@@ -1,23 +1,55 @@
 ﻿@page "/BlazorComponents/Collections"
-
-<h3>Collections</h3>
-	Name : @Collection1.Name<br />
-	This Collection is : @(Collection1.IsActive?"Active" : "Not Active")<br />
-	Price : @Collection1.Price<br />
-	@Collection1.Name Stories  : @Stories<br />
-	@if (!String.IsNullOrWhiteSpace(Stories))
+	<div class="row border p-3">
+		<div class="col-6 border p-4">
+		<h3 class="text-primary">Make Collection</h3><hr /><hr />
+		Active : <input type="checkbox" @bind-value="@Collection1.IsActive" checked="@(Collection1.IsActive?"checked":null)"/><br />
+		Price : <input type="number" @bind="@Collection1.Price" @bind:event="oninput"/><br />
+		@Collection1.Name Property : 
+		<select @bind="@Stories">
+		@foreach (var a in Collection1.CollectionProperty)
+		{
+			<option value="@a.Key">@a.Key</option>
+		}
+		</select><br />
+		</div><br />
+		<div class="col-6 border p-4">
+		<h3 class="text-primary">Collection Summary</h3><hr /><hr />
+		Name : @Collection1.Name<br />
+		This Collection is : @(Collection1.IsActive?"Active" : "Not Active")<br />
+		Price : @Collection1.Price<br />
+		@Collection1.Name Stories  : @Stories<br />
+		@if (!String.IsNullOrWhiteSpace(Stories))
+		{
+		<section>@Collection1.Name Located at : @Collection1.CollectionProperty.FirstOrDefault(u=> u.Key==Stories).Value</section><br />}
+		</div>
+	</div>
+	<div class="row border p-3">
+		<h3 class="text-primary">Electronics</h3><hr /><hr />
+		<table class="table table-striped">
+			<tbody>
+			@foreach(var a in Collection2)
+			{
+				<tr>
+					<td>
+						<input type="text" @bind-value="a.Name" @bind-value:event="oninput">
+					</td>
+					<td>
+						<input type="number" @bind-value="a.Price" @bind-value:event="oninput">
+					</td>
+					<td>
+						<input type="checkbox" @bind-value="a.IsActive" checked="@(a.IsActive?"checked":null)">
+					</td>
+				</tr>
+			}
+		</tbody>
+		</table>
+		<br />
+		<h3 class="text-primary">Electronics Summary</h3><hr /><hr />
+	@foreach(var a in Collection2)
 	{
-		<p>@Collection1.Name Located at : @Collection1.CollectionProperty.FirstOrDefault(u=> u.Key==Stories).Value</p><br />
+		<b>@a.Name  || Market Price @a.Price  ||  Currently @(a.IsActive?"Available":"Unavailable") </b>
 	}
-	Active : <input type="checkbox" @bind-value="@Collection1.IsActive" checked="@(Collection1.IsActive?"checked":null)"/><br />
-	Price : <input type="number" width="50px" height="2px" @bind="@Collection1.Price" @bind:event="oninput"/><br />
-	@Collection1.Name Property : 
-	<select @bind="@Stories">
-	@foreach (var a in Collection1.CollectionProperty)
-	{
-		<option value="@a.Key">@a.Key</option>
-	}
-	</select><br />
+</div>
 @code {
 	private string Stories = "";
 	CollectionClass Collection1 = new()
@@ -34,4 +66,38 @@
 				new CollectionPropertyClass{Id = 4, Key = "9 Story", Value="Countryside"},
 			}
 	};
+
+	List<CollectionClass> Collection2 = new();
+
+	protected override void OnInitialized()
+	{
+		Collection2.Add(new()
+			{
+				Id = 1,
+				Name = "Refrigerator",
+				Price = 5000,
+				IsActive = false,
+				CollectionProperty = new()
+				{
+					new CollectionPropertyClass { Id = 1, Key = "30 Litre", Value = "Walton" },
+					new CollectionPropertyClass { Id = 2, Key = "40 Litre", Value = "Sharp" },
+					new CollectionPropertyClass { Id = 3, Key = "80 Litre", Value = "Samsung" },
+					new CollectionPropertyClass { Id = 4, Key = "140 Litre", Value = "Samsung" },
+				}
+			});
+		Collection2.Add(new()
+			{
+				Id = 2,
+				Name = "Television",
+				Price = 1700,
+				IsActive = false,
+				CollectionProperty = new()
+				{
+					new CollectionPropertyClass { Id = 1, Key = "21 inch", Value = "LG" },
+					new CollectionPropertyClass { Id = 2, Key = "27 inch", Value = "Samsung" },
+					new CollectionPropertyClass { Id = 3, Key = "32 inch", Value = "Xiaomi" },
+					new CollectionPropertyClass { Id = 4, Key = "40 inch", Value = "Sony" },
+				}
+			});
+	}
 }
