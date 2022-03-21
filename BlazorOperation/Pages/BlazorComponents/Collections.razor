@@ -4,15 +4,34 @@
 	Name : @Collection1.Name<br />
 	This Collection is : @(Collection1.IsActive?"Active" : "Not Active")<br />
 	Price : @Collection1.Price<br />
-	Active : <input type="checkbox" @bind-value="@Collection1.IsActive" checked="@(Collection1.IsActive?"checked":null)"/>
-	@*Price : <input type="number" @bind="@Collection1.Price" @bind:event="oninput"/> TWO WAY DATA-BINDING*@ 
-
+	@Collection1.Name Stories  : @Stories<br />
+	@if (!String.IsNullOrWhiteSpace(Stories))
+	{
+		<p>@Collection1.Name Located at : @Collection1.CollectionProperty.FirstOrDefault(u=> u.Key==Stories).Value</p><br />
+	}
+	Active : <input type="checkbox" @bind-value="@Collection1.IsActive" checked="@(Collection1.IsActive?"checked":null)"/><br />
+	Price : <input type="number" width="50px" height="2px" @bind="@Collection1.Price" @bind:event="oninput"/><br />
+	@Collection1.Name Property : 
+	<select @bind="@Stories">
+	@foreach (var a in Collection1.CollectionProperty)
+	{
+		<option value="@a.Key">@a.Key</option>
+	}
+	</select><br />
 @code {
-	BlazorOperationModel.BlazorOperationModels.CollectionClass Collection1 = new()
+	private string Stories = "";
+	CollectionClass Collection1 = new()
 		{
 			Id = 1,
 			Name = "Building",
 			Price = 29.99,
-			IsActive = true
+			IsActive = true,
+			CollectionProperty = new List<CollectionPropertyClass>()
+			{
+				new CollectionPropertyClass{Id = 1, Key = "5 Story", Value="City"},
+				new CollectionPropertyClass{Id = 2, Key = "14 Story", Value="City"},
+				new CollectionPropertyClass{Id = 3, Key = "2 Story", Value="Countryside"},
+				new CollectionPropertyClass{Id = 4, Key = "9 Story", Value="Countryside"},
+			}
 	};
 }

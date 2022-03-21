@@ -1,0 +1,12 @@
+﻿@page "/BlazorComponents/WishList"
+<h3>Wish-List</h3>
+	Wish List : @wishListClass1.WishListName<br />
+	@wishListClass1.WishListName Price : @wishListClass1.WishListPrice
+@code {
+	BlazorOperationModel.BlazorOperationModels.WishListClass wishListClass1 = new()
+	{
+		WishListId = 1,
+		WishListName = "Watch",
+		WishListPrice = 120
+	};
+}
