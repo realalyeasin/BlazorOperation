@@ -1,0 +1,37 @@
+﻿<div class="bg-light border m-1 col-4" @onclick="(args)=>OnLastSelectedCollectionName(args,Collection3.Name)">
+	<h4 class="text-black">Collection - @Collection3.Id</h4>
+	<input type="checkbox" @onchange="SelectedToCartCountUpdate"/> Add To Cart<br />
+	Name : @Collection3.Name<br>
+	Display Collections : <input type="checkbox" @bind-value="Collection3.IsActive" checked="@(Collection3.IsActive?"checked":null)"/>
+	@if (Collection3.IsActive)
+	{
+		@foreach(var b in Collection3.CollectionProperty)
+		{
+			<br /><b>@b.Key - @b.Value</b>
+		}
+	}
+	<br>
+	<_EditDeleteButton IsActive=@Collection3.IsActive>
+	</_EditDeleteButton>
+	<br>
+</div>
+
+@code {
+	[Parameter]
+	public CollectionClass Collection3{ get; set; }
+
+	[Parameter]
+	public EventCallback<bool> OnCartUpdated{ get; set; }
+
+	[Parameter]
+	public EventCallback<string> OnLastSelectedCollectionNameChange{ get; set; }
+
+	private async Task SelectedToCartCountUpdate(ChangeEventArgs c)
+	{
+		await OnCartUpdated.InvokeAsync((bool)c.Value);
+	}
+	private async Task OnLastSelectedCollectionName(MouseEventArgs m,string name)
+	{
+		await OnLastSelectedCollectionNameChange.InvokeAsync(name);
+	}
+}

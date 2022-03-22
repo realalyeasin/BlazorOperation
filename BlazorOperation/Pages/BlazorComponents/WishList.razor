@@ -1,0 +1,68 @@
+﻿@page "/BlazorComponents/WishList"
+
+<h3 class="text-success"><b>Wish List</b></h3><hr /><hr />
+<div class="border p-3 mt-1" style="background-color:beige">
+	<div class="row">
+		<b>Cart Total : @SelectedToCartCount</b>
+		<b>Last Selected Collection : @LastSelectedCollectionName</b>
+		@foreach(var a in Collection2)
+		{	
+			<_IndividualCollection Collection3="a" OnCartUpdated="SelectedToCartCountUpdate" OnLastSelectedCollectionNameChange="LastSelectedCollectionNameUpdate"></_IndividualCollection>
+		}
+	</div>
+</div>
+
+@code {
+	List<CollectionClass> Collection2 = new();
+	private int SelectedToCartCount { get; set; } = 0;
+	private string? LastSelectedCollectionName{ get; set; }
+
+	protected override void OnInitialized()
+	{
+		Collection2.Add(new()
+			{
+				Id = 1,
+				Name = "Refrigerator",
+				Price = 5000,
+				IsActive = false,
+				CollectionProperty = new()
+				{
+					new CollectionPropertyClass { Id = 1, Key = "30 Litre", Value = "Walton" },
+					new CollectionPropertyClass { Id = 2, Key = "40 Litre", Value = "Sharp" },
+					new CollectionPropertyClass { Id = 3, Key = "80 Litre", Value = "Samsung" },
+					new CollectionPropertyClass { Id = 4, Key = "140 Litre", Value = "Samsung" },
+				}
+			});
+		Collection2.Add(new()
+			{
+				Id = 2,
+				Name = "Television",
+				Price = 1700,
+				IsActive = false,
+				CollectionProperty = new()
+				{
+					new CollectionPropertyClass { Id = 1, Key = "21 inch", Value = "LG" },
+					new CollectionPropertyClass { Id = 2, Key = "27 inch", Value = "Samsung" },
+					new CollectionPropertyClass { Id = 3, Key = "32 inch", Value = "Xiaomi" },
+					new CollectionPropertyClass { Id = 4, Key = "40 inch", Value = "Sony" },
+				}
+			});
+	}
+
+	protected void SelectedToCartCountUpdate(bool isSelected)
+	{
+		if (isSelected)
+		{
+			SelectedToCartCount++;
+		}
+		else
+		{
+			SelectedToCartCount--;
+		}
+	}
+
+	protected void LastSelectedCollectionNameUpdate(string CollectionName)
+	{
+		LastSelectedCollectionName = CollectionName;
+	}
+}
