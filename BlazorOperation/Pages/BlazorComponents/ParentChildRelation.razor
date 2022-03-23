@@ -1,0 +1,22 @@
+﻿@page "/BlazorComponents/ParentChildRelation"
+<h3>Relational Entity</h3>
+<CascadingValue Value="@Message" Name="message">
+	<CascadingValue Value="@BonusNumber" Name="bonus">
+<_ParentChildRelation Title="Temporary file from parent" OnButonClick="ShowToken">
+	Render Fragment!
+</_ParentChildRelation>
+<b>@Token</b><br />
+<_ParentChildRelation Title="Handling Empty Render Fragment">
+</_ParentChildRelation><br />
+<_Child2nd Placeholder="Type your Name" MaxLength="12"></_Child2nd>
+</CascadingValue>
+</CascadingValue>
+@code {
+	public string Token = "";
+	private void ShowToken()
+	{
+		Token = "1DH674JD";
+	}
+	public string Message = "Cascading Values - 887263";
+	public int BonusNumber = 4;
+}

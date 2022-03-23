@@ -2,6 +2,8 @@
 	<h4 class="text-black">Collection - @Collection3.Id</h4>
 	<input type="checkbox" @onchange="SelectedToCartCountUpdate"/> Add To Cart<br />
 	Name : @Collection3.Name<br>
+	Collection Number - @FirstFragment<br />
+	Collection Code - @SecondFragment<br />
 	Display Collections : <input type="checkbox" @bind-value="Collection3.IsActive" checked="@(Collection3.IsActive?"checked":null)"/>
 	@if (Collection3.IsActive)
 	{
@@ -25,6 +27,12 @@
 
 	[Parameter]
 	public EventCallback<string> OnLastSelectedCollectionNameChange{ get; set; }
+
+	[Parameter]
+	public RenderFragment FirstFragment { get; set; }
+
+	[Parameter]
+	public RenderFragment SecondFragment { get; set; }
 
 	private async Task SelectedToCartCountUpdate(ChangeEventArgs c)
 	{

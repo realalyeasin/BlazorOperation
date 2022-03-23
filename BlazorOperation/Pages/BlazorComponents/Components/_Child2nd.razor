@@ -1,0 +1,16 @@
+﻿<div>
+	<input type="text" @attributes="InputAttributes"/><br />
+	<b>This is your @MessageForChild</b><br />
+	<b>This is your bonus for today @BonusForChild</b><br />
+</div>
+
+@code {
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>();
+
+	[CascadingParameter(Name = "message")]
+	public string MessageForChild{ get; set; }
+	
+	[CascadingParameter(Name ="bonus")]
+	public int BonusForChild{ get; set; }
+}
