@@ -2,13 +2,39 @@
 @page "/BlazorComponents/Routing/{parameter1}/{parameter2}"
 @page "/BlazorComponents/Routing"
 @page "/Routing"
+
+@inject NavigationManager _NavigationManager
 <h3>Routing</h3><hr />
 <h5>Parameer 1 : @Parameter1</h5><hr />
-<h5>Parameer 2 : @Parameter2</h5>
+<h5>Parameer 2 : @Parameter2</h5><hr />
+@*<a href="Routing?Para1=Blazor&Para2=Operation" class="btn-dark">Navigate to parameter</a>*@
+<button @onclick="BringNavigationLink" class="btn-dark">Navigate to parameter</button>
+<button class="btn-success" @onclick="LoadParameters">Load parameter</button>
+<br />
+<h3>Query String Parameters : </h3>
+<h5>Parameter 1 : @Para1</h5><hr />
+<h5>Parameter 2 : @Para2</h5><hr />
 @code {
 	[Parameter]
 	public string Parameter1 { get; set; }
-	
+
 	[Parameter]
 	public string Parameter2 { get; set; }
+
+	public string Para1 { get; set; }
+	public string Para2 { get; set; }
+
+	private void LoadParameters()
+	{
+		var absoluteUri = new Uri(_NavigationManager.Uri);
+		var qParam = System.Web.HttpUtility.ParseQueryString(absoluteUri.Query);
+		Para1 = qParam["Para1"];
+		Para2 = qParam["Para2"];
+
+	}
+
+	private void BringNavigationLink()
+	{
+		_NavigationManager.NavigateTo("Routing?Para1=Blazor&Para2=Operation");
+	}
 }
