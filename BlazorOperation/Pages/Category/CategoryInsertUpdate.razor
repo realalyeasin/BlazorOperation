@@ -1,4 +1,5 @@
 ﻿@page "/category/create"
+@page "/category/edit/{id:int}"
 @inject ICategoryRepository _categoryRepository
 @inject NavigationManager _navigationManager
 
@@ -21,12 +22,43 @@
 </div>
 
 @code {
+
+	[Parameter]
+	public int Id { get; set; }
+
 	private CategoryDTO Category { get; set; } = new CategoryDTO();
 	private string Title { get; set; } = "Create";
+	public bool IsLoading { get; set; } = true;
+	protected override async Task OnInitializedAsync()
+	{
+		if (Id == 0)
+		{
+			IsLoading = false;
+		}
+		else
+		{
+			Title = "Update";
+			await Task.Run(LoadCategories);
+		}
+
+	}
+
+	private void LoadCategories()
+	{
+		Category = _categoryRepository.Get(Id);
+		IsLoading = false;
+	}
 
 	private void UpdateInsertCategory()
 	{
-		_categoryRepository.Create(Category);
+		if (Category.Id == 0)
+		{
+			_categoryRepository.Create(Category);
+		}
+		else
+		{
+			_categoryRepository.Update(Category);
+		}
 		_navigationManager.NavigateTo("category");
 	}
 }
